@@ -14,7 +14,7 @@ from selenium.webdriver.common.keys import Keys #引入Keys类包
 import random
 import schedule
 
-driver = webdriver.Chrome()  # 选择浏览器，此处我选择的Chrome
+driver = webdriver.Edge()  # 选择浏览器，此处我选择的Edge
 driver.get('https://pc.xuexi.cn/points/login.html?ref=https://www.xuexi.cn/')
 #driver.implicitly_wait (30)#自动休眠30s范围内
 input("请先登录，登录完成后回车键继续：")
