@@ -20,7 +20,7 @@ def roll_page():             #模拟网页下滚操作
     driver.switch_to.window(windows[-1])        #切换窗口
     
     
-def read_articles()
+def read_articles():
     driver.get('https://www.xuexi.cn/98d5ae483720f701144e4dabf99a4a34/5957f69bffab66811b99940516ec8784.html')
     time.sleep(5)
     news_items = driver.find_elements(By.CLASS_NAME,'grid-cell')
@@ -33,8 +33,8 @@ def read_articles()
         news_link.click()
         roll_page()
 
-def watch_vedios()
-
+def watch_vedios():
+    pass
 
 
 if __name__ == '__main__':
@@ -48,6 +48,7 @@ if __name__ == '__main__':
         watch_vedios()
     else:
         driver.quit()
+
 
     
 
