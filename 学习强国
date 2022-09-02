@@ -1,13 +1,9 @@
 import time  # 用来延时
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys  # 引入Keys类包
+from selenium.webdriver.common.keys import Keys
 import random
 from selenium.webdriver.common.by import By
 
-driver = webdriver.Edge(executable_path='E:\webdriver\msedgedriver')
-#driver.get('https://pc.xuexi.cn/points/login.html?ref=https://www.xuexi.cn/')
-# driver.implicitly_wait (30)#自动休眠30s范围内
-#input("请先登录，登录完成后回车键继续：")
 
 
 def roll_page():             #模拟网页下滚操作
@@ -22,19 +18,37 @@ def roll_page():             #模拟网页下滚操作
     driver.close()
     windows = driver.window_handles
     driver.switch_to.window(windows[-1])        #切换窗口
-
-
-if __name__ == '__main__':
+    
+    
+def read_articles()
     driver.get('https://www.xuexi.cn/98d5ae483720f701144e4dabf99a4a34/5957f69bffab66811b99940516ec8784.html')
-    time.sleep(2)
-    news_items = driver.find_elements_by_class_name('grid-cell')
+    time.sleep(5)
+    news_items = driver.find_elements(By.CLASS_NAME,'grid-cell')
     print(news_items)
-    news_items = driver.find_elements_by_class_name('text-link-item-title')
+    news_items = driver.find_elements(By.CLASS_NAME,'text-link-item-title')
     print(news_items)
 
     for news_link in news_items:
         time.sleep(5)
         news_link.click()
         roll_page()
+
+def watch_vedios()
+
+
+
+if __name__ == '__main__':
+    driver = webdriver.Edge(executable_path='F:\webdriver\msedgedriver')
+    driver.get('https://pc.xuexi.cn/points/login.html?ref=https://www.xuexi.cn/')
+    driver.implicitly_wait (30)      #自动休眠30s范围内
+    option=input("A：阅读文章————B：观看视频————C：退出程序")
+    if option=="A":
+        read_articles()
+    elif option=="B":
+        watch_vedios()
+    else:
+        driver.quit()
+
+    
 
 
