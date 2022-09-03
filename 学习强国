@@ -1,55 +1,62 @@
-import time  # 用来延时
+import time 
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-import random
 from selenium.webdriver.common.by import By
 
+global  page
 
 
-def roll_page():             #模拟网页下滚操作
+def roll_page():   # 模拟网页下滚操作
     windows = driver.window_handles
-    driver.switch_to.window(windows[-1])           #切换窗口
-    Pixel_down=0
-    for i in range(0,30):
-        js = "var action=document.documentElement.scrollTop="+str(Pixel_down)     #模拟向下滚动鼠标
+    driver.switch_to.window(windows[-1])  # 切换最新窗口
+    Pixel_down = 0
+    for i in range(0, 15):      # 鼠标滚动次数
+        js = "var action=document.documentElement.scrollTop=" + str(Pixel_down)  # 模拟向下滚动鼠标
         driver.execute_script(js)
-        time.sleep(2)
-        Pixel_down = Pixel_down + 100
+        time.sleep(5)                      #鼠标滚动间歇时间
+        Pixel_down = Pixel_down + 100      #鼠标向下滚动像素点数
     driver.close()
     windows = driver.window_handles
-    driver.switch_to.window(windows[-1])        #切换窗口
-    
-    
+    driver.switch_to.window(windows[-1])  # 切换上一个窗口
+
+
 def read_articles():
     driver.get('https://www.xuexi.cn/98d5ae483720f701144e4dabf99a4a34/5957f69bffab66811b99940516ec8784.html')
     time.sleep(5)
-    news_items = driver.find_elements(By.CLASS_NAME,'grid-cell')
-    print(news_items)
-    news_items = driver.find_elements(By.CLASS_NAME,'text-link-item-title')
-    print(news_items)
+    news_items = driver.find_elements(By.CLASS_NAME, 'grid-cell')
+    news_items = driver.find_elements(By.CLASS_NAME, 'text-link-item-title')
 
     for news_link in news_items:
-        time.sleep(5)
+        global page
+        page=page+1
         news_link.click()
+        time.sleep(5)
         roll_page()
+        if page==7:
+            break
+
+
 
 def watch_vedios():
-    pass
+    driver.get('https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#1novbsbi47k-5')
+    time.sleep(5)
+    vedio_items = driver.find_elements(By.CLASS_NAME, 'innerPic')
 
+    for vedio_link in vedio_items:
+        global page
+        page=page+1
+        time.sleep(5)
+        vedio_link.click()
+        roll_page()
+        if page==7:
+            break
 
 if __name__ == '__main__':
-    driver = webdriver.Edge(executable_path='F:\webdriver\msedgedriver')
+    driver = webdriver.Edge(executable_path='E:\webdriver\msedgedriver')
     driver.get('https://pc.xuexi.cn/points/login.html?ref=https://www.xuexi.cn/')
-    driver.implicitly_wait (30)      #自动休眠30s范围内
-    option=input("A：阅读文章————B：观看视频————C：退出程序")
-    if option=="A":
-        read_articles()
-    elif option=="B":
-        watch_vedios()
-    else:
-        driver.quit()
-
-
-    
-
-
+    driver.implicitly_wait(30)            # 隐式等待，如果 WebDriver没有找到元素，将继续等待，超出设定时间后则抛出异常
+    input("登陆后，请按回车确认。")
+    page = 0
+    watch_vedios()
+    page = 0
+    read_articles()
+    driver.close()
