@@ -1,0 +1,29 @@
+import pdfplumber
+import xlwt
+import re
+
+#读取pdf文件，将pdf每一行写入txt文件
+with pdfplumber.open(r"C:\Users\Desktop\1.pdf", password="********") as pdf:
+    for page in pdf.pages:
+        text = page.extract_text()#提取文本
+        txt_file = open(r"C:\Users\Desktop\1.txt",mode='a',encoding='utf-8')
+        txt_file.write(text)
+
+fopen = open(r"C:\Users\Desktop\1.txt",encoding='utf-8')
+lines = fopen.readlines()
+# 新建一个excel文件
+file = xlwt.Workbook(encoding='utf-8', style_compression=0)
+# 新建一个sheet
+sheet = file.add_sheet('data')
+
+
+# 读取txt文件的每一行
+i = 0
+for line in lines:
+    reslut = re.search('\(GID-', line)   #正则匹配条件
+    if reslut:        #如果匹配为True
+        sheet.write(i, 0, line)     #写入excell行
+        i = i + 1        #换行
+
+
+file.save(r"C:\Users\Desktop\1.xls")    #保存xls文件
